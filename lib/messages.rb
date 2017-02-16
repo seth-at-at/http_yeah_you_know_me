@@ -14,7 +14,7 @@ class Messages
 	def wrote_this(h, o)
 		puts ["Wrote this response:", h, o].join("\n")
 	end
-	
+
 	def response_complete
 	  puts "\nResponse complete, will now exit."
 	end

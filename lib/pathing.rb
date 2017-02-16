@@ -1,6 +1,7 @@
 require_relative'word_search'
 require_relative'messages'
 require_relative'game'
+require'pry'
 
 class Pathing
   attr_reader :counter, 
@@ -22,8 +23,13 @@ class Pathing
     "Hello, World! (#{@hello_counter += 1})"
   end
 
-  def iterm_paths(path_road, p_value, format_response, verb)
+  def iterm_paths(path_road, param_value, format_response, verb)
     counting_path(path_road)
+		if path_road.include?("%20")
+			param_value << path_road.scan(/../)[-1]
+			path_road = path_road.scan(/.{11}/).first
+			# binding.pry
+		end
 
     case path_road
 			when "/hello"
@@ -32,16 +38,16 @@ class Pathing
 				path_output = datetime
 			when "/total_requests"
 				path_output = total_requests
-			when "/word_search"
-				path_output = WordSearch.new.word_search(p_value)
+			when "/word_search/#{param_value}"
+				path_output = WordSearch.new.is_word?(param_value)
 			when "/start_game"
 				path_output = start_game
 			when "/game"
-				path_output = @game_instance.game(p_value, verb)
+				path_output = @game_instance.game(param_value, verb)
 			else
 				path_output = ""
     end
-		
+
   end
 
   def counting_path(path_road)

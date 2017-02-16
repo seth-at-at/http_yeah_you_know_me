@@ -4,25 +4,25 @@ class Game
 							:guess_counter,
               :num
 
-  def initialize(num = rand(0..100))
+  def initialize(num = rand(0..99))
     @answer = num
     @guess_counter   = 0
   end
 
-  def game(parameter_value, verb)
-    if verb    == "GET"
+  def game(param_value, verb)
+    if verb == "GET"
       play_game
     elsif verb == "POST"
-      @redirect        = true
-      @parameter_value = parameter_value[0].to_i
+      @redirect = true
+      @param_value = param_value[0].to_i
       "storing your guess"
     end
   end
 
   def play_game
     @redirect = false
-    if @parameter_value
-      make_a_guess(@parameter_value)
+    if @param_value
+      make_a_guess(@param_value)
     else
       "Please make a guess."
     end

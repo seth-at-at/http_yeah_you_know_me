@@ -9,12 +9,12 @@ class WebServer
               :path_options, 
               :output, 
               :headers, 
-              :parameter_value,
+              :param_value,
               :server,
               :message
 
-  def initialize
-    @server        = TCPServer.new(9292)
+  def initialize(port)
+    @server        = TCPServer.new(port)
     @path_options  = Pathing.new
     @message       = Messages.new
   end
@@ -32,20 +32,20 @@ class WebServer
     verb = "#{request_lines[0].split[0]}"
     path = request_lines[0].split(/[\s?&=]/)
     param_values
-    path_output = path_options.paths(path[1], parameter_value, format_response, verb)
-    message.got_response
+    path_output = path_options.iterm_paths(path[1], param_value, format_response, verb)
+    message.got_request
     puts request_lines.inspect
-    message.sending_request
+    message.sending_response
     @response = "<pre>" + path_output + "\n\n" + format_response + "</pre>"
   end
 
   def param_values
     format_response
     path = request_lines[0].split(/[\s?&=]/)
-    @parameter_value = []
+    @param_value = []
     path[2..-2].each_with_index do |word, index|
       if index.odd?
-        parameter_value << word
+        param_value << word
       end
     end
   end
@@ -101,6 +101,5 @@ class WebServer
 end
 
 if __FILE__ == $0
-  WebServer.new.run
-  WebServer.new.server_response
+  WebServer.new(9292).run
 end
