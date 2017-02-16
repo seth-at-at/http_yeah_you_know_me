@@ -15,7 +15,7 @@ class WebServer
 
   def initialize
     @server        = TCPServer.new(9292)
-    @path_options  = PathRequest.new
+    @path_options  = Pathing.new
     @message       = Messages.new
   end
 
@@ -102,4 +102,5 @@ end
 
 if __FILE__ == $0
   WebServer.new.run
+  WebServer.new.server_response
 end

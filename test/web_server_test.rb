@@ -6,6 +6,7 @@ require'./lib/web_server'
 class TCPServerTest < Minitest::Test
 
   def test_response
+    skip
     client = Faraday.new("http://127.0.0.1:9292")
     response = client.get("http://127.0.0.1:9292")
 
