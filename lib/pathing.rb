@@ -28,7 +28,6 @@ class Pathing
 		if path_road.include?("%20")
 			param_value << path_road.scan(/../)[-1]
 			path_road = path_road.scan(/.{11}/).first
-			# binding.pry
 		end
 
     case path_road
@@ -39,7 +38,7 @@ class Pathing
 			when "/total_requests"
 				path_output = total_requests
 			when "/word_search/#{param_value}"
-				path_output = WordSearch.new.is_word?(param_value)
+				path_output = WordSearch.new.word_search(param_value)
 			when "/start_game"
 				path_output = start_game
 			when "/game"
@@ -61,6 +60,10 @@ class Pathing
   end
 
   def total_requests
+		if counter == 12
+			message.response_complete
+			exit
+		end
     "Total requests: #{counter}"
   end
 

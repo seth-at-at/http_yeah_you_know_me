@@ -15,7 +15,6 @@ class Game
     elsif verb == "POST"
       @redirect = true
       @param_value = param_value[0].to_i
-      "storing your guess"
     end
   end
 
