@@ -31,7 +31,7 @@ class WebServer
   def command_line_output
     verb = "#{request_lines[0].split[0]}"
     path = request_lines[0].split(/[\s?&=]/)
-    isolate_parameter_values
+    param_values
     path_output = path_options.paths(path[1], parameter_value, format_response, verb)
     message.got_response
     puts request_lines.inspect
@@ -39,7 +39,7 @@ class WebServer
     @response = "<pre>" + path_output + "\n\n" + format_response + "</pre>"
   end
 
-  def isolate_parameter_values
+  def param_values
     format_response
     path = request_lines[0].split(/[\s?&=]/)
     @parameter_value = []
@@ -89,13 +89,13 @@ class WebServer
     message.response_complete
   end
 
-  def run!
+  def run
     loop do
       start_server
       command_line_output
       path_options.redirect? ? game_server_response : server_response
       end_response
-      break if request_lines[0].split[1] == "/shutdown"
+      break if request_lines[0].split[1] == "/total_requests"
     end
   end
 end
