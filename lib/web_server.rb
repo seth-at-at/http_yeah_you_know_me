@@ -1,22 +1,30 @@
-require 'socket'
-require_relative 'path'
+require'socket'
+require_relative'pathing'
+require_relative'messages'
 
 class WebServer
-  attr_reader :client, :request_lines, :path_output, :path_options, :output, :headers, :parameter_value
+  attr_reader :client, 
+              :request_lines, 
+              :path_output, 
+              :path_options, 
+              :output, 
+              :headers, 
+              :parameter_value,
+              :server,
+              :message
 
   def initialize
     @server        = TCPServer.new(9292)
     @path_options  = PathRequest.new
+    @message       = Messages.new
   end
 
   def start_server
-    @client = @server.accept
+    @client = server.accept
     @request_lines = []
-
     while line = client.gets and !line.chomp.empty?
       request_lines << line.chomp
     end
-
     request_lines
   end
 
@@ -24,10 +32,10 @@ class WebServer
     verb = "#{request_lines[0].split[0]}"
     path = request_lines[0].split(/[\s?&=]/)
     isolate_parameter_values
-    path_output = path_options.iterm_paths(path[1], parameter_value, format_response, verb)
-    message.got_request
+    path_output = path_options.paths(path[1], parameter_value, format_response, verb)
+    message.got_response
     puts request_lines.inspect
-    message.sending_response
+    message.sending_request
     @response = "<pre>" + path_output + "\n\n" + format_response + "</pre>"
   end
 
@@ -82,14 +90,13 @@ class WebServer
   end
 
   def run!
-
-    until request_lines[0].split[1] == "/shutdown"
+    loop do
       start_server
       command_line_output
       path_options.redirect? ? game_server_response : server_response
       end_response
+      break if request_lines[0].split[1] == "/shutdown"
     end
-    
   end
 end
 
