@@ -33,10 +33,11 @@ class WebServer
     path = request_lines[0].split(/[\s?&=]/)
     param_values
     path_output = path_options.iterm_paths(path[1], param_value, format_response, verb)
+    binding.pry
     message.got_request
     puts request_lines.inspect
     message.sending_response
-    @response = "<pre>" + path_output + "\n\n" + format_response + "</pre>"
+    @response = "<pre>#{path_output}\n\n#{format_response}</pre>"
   end
 
   def param_values
