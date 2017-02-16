@@ -84,9 +84,9 @@ class WebServer
   end
 
   def end_response
-    puts ["Wrote this response:", headers, output].join("\n")
+    message.wrote_this(headers, output)
     client.close
-    puts "\nResponse complete, exiting."
+    message.response_complete
   end
 
   def run!
@@ -101,5 +101,5 @@ class WebServer
 end
 
 if __FILE__ == $0
-  WebServer.new.run!
+  WebServer.new.run
 end

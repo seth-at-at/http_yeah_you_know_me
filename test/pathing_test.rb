@@ -3,7 +3,7 @@ require'./lib/pathing'
 require'./lib/word_search'
 
 class PathingTest < Minitest::Test
-	
+
 	def setup 
 		@response = "Hello, World! (1)\n\nVerb: GET\nPath: /\nProtocol: HTTP/1.1\nHost: localhost:9292\nPort: 9292\nOrigin:  localhost:9292\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
     @path = Pathing.new
@@ -31,7 +31,7 @@ class PathingTest < Minitest::Test
     assert @path.redirect?
 	end
 
-  def test_different_responses_with_multiple_requests
+  def test_different_responses_to_more_than_one_request
     result1 = Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
     result2 = ""
     result3 = "Hello, World! (1)"
